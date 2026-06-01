@@ -1,5 +1,6 @@
 package fr.epsi.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class Panier {
     }
 
     public Map<Article, Integer> getArticles() {
-        return articles;
+        return Collections.unmodifiableMap(articles);
     }
 
     public boolean estVide() {

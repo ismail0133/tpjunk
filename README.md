@@ -19,9 +19,11 @@ tp-jenkins/
     │   └── service/
     │       └── CommandeService.java ← Logique métier
     └── test/java/fr/epsi/service/
-        ├── CommandeServiceTest.java  ← Tests unitaires (11 tests)
+        ├── CommandeServiceTest.java  ← Tests unitaires (14 tests)
         └── CommandeServiceIT.java   ← Tests d'intégration (3 tests)
 ```
+
+J'ai réalisé la configuration complète du TP : tests automatisés, couverture JaCoCo, analyse qualité et pipeline Jenkins.
 
 ---
 
@@ -52,7 +54,7 @@ mvn clean verify checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs
 ### Résultats attendus
 
 ```
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
 Tests run: 3,  Failures: 0, Errors: 0, Skipped: 0  (intégration)
 [INFO] BUILD SUCCESS
 ```

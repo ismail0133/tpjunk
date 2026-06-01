@@ -66,15 +66,23 @@ class CommandeServiceTest {
     @Test
     @DisplayName("Panier vide lève une IllegalArgumentException")
     void calculerTotal_PanierVide_LeveException() {
+        // GIVEN
+        Panier panierVide = new Panier();
+
+        // WHEN + THEN
         assertThrows(IllegalArgumentException.class,
-            () -> service.calculerTotal(new Panier()));
+            () -> service.calculerTotal(panierVide));
     }
 
     @Test
     @DisplayName("Panier null lève une IllegalArgumentException")
     void calculerTotal_PanierNull_LeveException() {
+        // GIVEN
+        Panier panierNull = null;
+
+        // WHEN + THEN
         assertThrows(IllegalArgumentException.class,
-            () -> service.calculerTotal(null));
+            () -> service.calculerTotal(panierNull));
     }
 
     // ─────────────────────────────────────────────────
@@ -84,29 +92,67 @@ class CommandeServiceTest {
     @Test
     @DisplayName("Remise 10% sur 100€ = 90€")
     void appliquerRemise_DixPourcent_RetourneQuatreVingtDix() {
-        double resultat = service.appliquerRemise(100.0, 10);
+        // GIVEN
+        double total = 100.0;
+        int pourcentage = 10;
+
+        // WHEN
+        double resultat = service.appliquerRemise(total, pourcentage);
+
+        // THEN
         assertEquals(90.0, resultat, 0.001);
+    }
+
+    @Test
+    @DisplayName("Remise 100% → total à zéro")
+    void appliquerRemise_CentPourcent_RetourneZero() {
+        // GIVEN
+        double total = 200.0;
+        int pourcentage = 100;
+
+        // WHEN
+        double resultat = service.appliquerRemise(total, pourcentage);
+
+        // THEN
+        assertEquals(0.0, resultat, 0.001);
     }
 
     @Test
     @DisplayName("Remise 0% ne change pas le total")
     void appliquerRemise_ZeroPourcent_RetourneTotalInchange() {
-        double resultat = service.appliquerRemise(100.0, 0);
+        // GIVEN
+        double total = 100.0;
+        int pourcentage = 0;
+
+        // WHEN
+        double resultat = service.appliquerRemise(total, pourcentage);
+
+        // THEN
         assertEquals(100.0, resultat, 0.001);
     }
 
     @Test
     @DisplayName("Remise négative lève une IllegalArgumentException")
     void appliquerRemise_RemiseNegative_LeveException() {
+        // GIVEN
+        double total = 100.0;
+        int pourcentage = -5;
+
+        // WHEN + THEN
         assertThrows(IllegalArgumentException.class,
-            () -> service.appliquerRemise(100.0, -5));
+            () -> service.appliquerRemise(total, pourcentage));
     }
 
     @Test
     @DisplayName("Remise > 100 lève une IllegalArgumentException")
     void appliquerRemise_RemiseSupCent_LeveException() {
+        // GIVEN
+        double total = 100.0;
+        int pourcentage = 150;
+
+        // WHEN + THEN
         assertThrows(IllegalArgumentException.class,
-            () -> service.appliquerRemise(100.0, 150));
+            () -> service.appliquerRemise(total, pourcentage));
     }
 
     // ─────────────────────────────────────────────────
@@ -116,18 +162,65 @@ class CommandeServiceTest {
     @Test
     @DisplayName("30€ → catégorie PETITE")
     void categoriser_TrenteEuros_RetournePetite() {
-        assertEquals("PETITE", service.categoriserCommande(30.0));
+        // GIVEN
+        double total = 30.0;
+
+        // WHEN
+        String categorie = service.categoriserCommande(total);
+
+        // THEN
+        assertEquals("PETITE", categorie);
     }
 
     @Test
     @DisplayName("150€ → catégorie MOYENNE")
     void categoriser_CentCinquanteEuros_RetourneMoyenne() {
-        assertEquals("MOYENNE", service.categoriserCommande(150.0));
+        // GIVEN
+        double total = 150.0;
+
+        // WHEN
+        String categorie = service.categoriserCommande(total);
+
+        // THEN
+        assertEquals("MOYENNE", categorie);
     }
 
     @Test
     @DisplayName("500€ → catégorie GRANDE")
     void categoriser_CinqCentsEuros_RetourneGrande() {
-        assertEquals("GRANDE", service.categoriserCommande(500.0));
+        // GIVEN
+        double total = 500.0;
+
+        // WHEN
+        String categorie = service.categoriserCommande(total);
+
+        // THEN
+        assertEquals("GRANDE", categorie);
+    }
+
+    @Test
+    @DisplayName("Frontière : exactement 50€ → MOYENNE")
+    void categoriser_CinquanteEuros_RetourneMoyenne() {
+        // GIVEN
+        double total = 50.0;
+
+        // WHEN
+        String categorie = service.categoriserCommande(total);
+
+        // THEN
+        assertEquals("MOYENNE", categorie);
+    }
+
+    @Test
+    @DisplayName("Frontière : exactement 200€ → GRANDE")
+    void categoriser_DeuxCentsEuros_RetourneGrande() {
+        // GIVEN
+        double total = 200.0;
+
+        // WHEN
+        String categorie = service.categoriserCommande(total);
+
+        // THEN
+        assertEquals("GRANDE", categorie);
     }
 }

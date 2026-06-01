@@ -14,6 +14,11 @@ public class Article {
         this.prix = prix;
     }
 
-    public String getNom()  { return nom; }
-    public double getPrix() { return prix; }
+    public String getNom() {
+        return nom;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
 }

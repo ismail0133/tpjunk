@@ -67,7 +67,7 @@ class CommandeServiceIT {
     void pipelineComplete_RemiseTotale_TotalZero() {
         // GIVEN
         Panier panier = new Panier();
-        panier.ajouter(new Article("Cadeau", 50.0), 1);
+        panier.ajouter(new Article("Cadeau", 150.0), 1);
 
         // WHEN
         double total     = service.calculerTotal(panier);
@@ -75,6 +75,7 @@ class CommandeServiceIT {
         String categorie = service.categoriserCommande(apresRemise);
 
         // THEN
+        assertEquals(150.0,  total,       0.001);
         assertEquals(0.0,    apresRemise, 0.001);
         assertEquals("PETITE", categorie);
     }

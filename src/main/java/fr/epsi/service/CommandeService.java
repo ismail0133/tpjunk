@@ -50,8 +50,12 @@ public class CommandeService {
      * @return "PETITE" < 50€, "MOYENNE" < 200€, "GRANDE" sinon
      */
     public String categoriserCommande(double total) {
-        if (total < 50)       return "PETITE";
-        else if (total < 200) return "MOYENNE";
-        else                  return "GRANDE";
+        if (total < 50) {
+            return "PETITE";
+        } else if (total < 200) {
+            return "MOYENNE";
+        } else {
+            return "GRANDE";
+        }
     }
 }
