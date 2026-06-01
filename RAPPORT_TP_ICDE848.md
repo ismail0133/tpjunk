@@ -71,6 +71,16 @@ Le pipeline contient aussi les paramètres `ENVIRONMENT`, `BRANCH` et `SKIP_TEST
 
 J'ai réalisé la configuration du job Jenkins `ICDE848` pour utiliser le dépôt GitHub `https://github.com/ismail0133/tpjunk.git` et déclencher le pipeline à chaque push GitHub.
 
+## Captures Jenkins
+
+J'ai réalisé un build Jenkins déclenché automatiquement depuis GitHub. La capture ci-dessous montre le build `tpjunk #2` en succès, démarré par un push GitHub, avec les artefacts archivés et le dépôt `https://github.com/ismail0133/tpjunk.git`.
+
+![Build Jenkins déclenché depuis GitHub](docs/screenshots/jenkins-status-build-2.png)
+
+J'ai réalisé la vérification des résultats de tests dans Jenkins. La capture ci-dessous montre que les 17 tests sont passés avec 0 échec.
+
+![Résultats des tests Jenkins](docs/screenshots/jenkins-tests-build-2.png)
+
 ## Build en échec puis correction
 
 J'ai observé un échec local avec SpotBugs parce que Maven utilisait Java 25. Le message important était :
