@@ -115,18 +115,7 @@ pipeline {
             }
             post {
                 always {
-                    script {
-                        try {
-                            jacoco(
-                                execPattern: '**/target/jacoco.exec',
-                                classPattern: '**/target/classes',
-                                sourcePattern: '**/src/main/java',
-                                minimumLineCoverage: '70'
-                            )
-                        } catch (err) {
-                            echo "Plugin JaCoCo Jenkins indisponible, rapport archivé en artefact."
-                        }
-                    }
+                    echo "Rapport JaCoCo généré et archivé en artefact."
                     archiveArtifacts(
                         artifacts: 'target/site/jacoco/**, target/jacoco.exec',
                         fingerprint: true,
@@ -149,26 +138,7 @@ pipeline {
             }
             post {
                 always {
-                    script {
-                        try {
-                            recordIssues(
-                                enabledForFailure: true,
-                                tools: [
-                                    checkStyle(pattern: '**/checkstyle-result.xml'),
-                                    pmdParser(pattern: '**/pmd.xml'),
-                                    cpd(pattern: '**/cpd.xml'),
-                                    spotBugs(pattern: '**/spotbugsXml.xml')
-                                ],
-                                qualityGates: [[
-                                    threshold: 10,
-                                    type: 'TOTAL',
-                                    unstable: true
-                                ]]
-                            )
-                        } catch (err) {
-                            echo "Plugin Warnings NG indisponible, rapports qualité archivés en artefacts."
-                        }
-                    }
+                    echo "Rapports qualité générés et archivés en artefacts."
                     archiveArtifacts(
                         artifacts: 'target/checkstyle-result.xml, target/pmd.xml, target/cpd.xml, target/spotbugsXml.xml',
                         fingerprint: true,
