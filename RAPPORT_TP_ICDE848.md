@@ -69,6 +69,8 @@ J'ai réalisé la publication Jenkins des rapports :
 
 Le pipeline contient aussi les paramètres `ENVIRONMENT`, `BRANCH` et `SKIP_TESTS`, ainsi que les notifications email en cas d'échec et quand le build redevient stable.
 
+J'ai réalisé la configuration du job Jenkins `ICDE848` pour utiliser le dépôt GitHub `https://github.com/ismail0133/tpjunk.git` et déclencher le pipeline à chaque push GitHub.
+
 ## Build en échec puis correction
 
 J'ai observé un échec local avec SpotBugs parce que Maven utilisait Java 25. Le message important était :
