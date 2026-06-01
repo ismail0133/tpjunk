@@ -81,6 +81,10 @@ J'ai réalisé la vérification des résultats de tests dans Jenkins. La capture
 
 ![Résultats des tests Jenkins](docs/screenshots/jenkins-tests-build-2.png)
 
+J'ai réalisé la vérification locale de Jenkins avec ngrok. La capture ci-dessous montre la configuration ngrok valide, Jenkins accessible en local sur le port 8080 et la commande utilisée pour lancer le tunnel.
+
+![Vérification ngrok et Jenkins local](docs/screenshots/PHOTO-2026-06-01-11-24-11.jpg)
+
 ## Build en échec puis correction
 
 J'ai observé un échec local avec SpotBugs parce que Maven utilisait Java 25. Le message important était :
