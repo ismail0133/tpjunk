@@ -124,3 +124,4 @@ Unsupported class file major version 69
 ```
 
 J'ai corrigé la configuration Maven en ciblant explicitement Java 17 avec `maven.compiler.release` et en mettant à jour le plugin SpotBugs. Cette correction correspond mieux au TP, car Jenkins doit utiliser l'outil `JDK17`.
+
