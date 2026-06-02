@@ -103,17 +103,21 @@ Cette configuration permet à GitHub d'envoyer l'événement `push` vers Jenkins
 
 ## Captures Jenkins
 
-J'ai réalisé un build Jenkins déclenché automatiquement depuis GitHub. La capture ci-dessous montre le build `tpjunk #2` en succès, démarré par un push GitHub, avec les artefacts archivés et le dépôt `https://github.com/ismail0133/tpjunk.git`.
+J'ai configuré le webhook GitHub avec l'URL ngrok publique de Jenkins. La capture ci-dessous montre le `Payload URL` renseigné avec `/github-webhook/`, le type `application/json` et l'événement `push`.
 
-![Build Jenkins déclenché depuis GitHub](docs/screenshots/jenkins-status-build-2.png)
+![Webhook GitHub vers Jenkins via ngrok](docs/screenshots/github-webhook-ngrok.jpeg)
 
-J'ai réalisé la vérification des résultats de tests dans Jenkins. La capture ci-dessous montre que les 17 tests sont passés avec 0 échec.
+J'ai réalisé un build Jenkins déclenché automatiquement depuis GitHub. La capture ci-dessous montre le job `ICDE848` en succès, avec un nouveau build `#6` lancé après le push.
 
-![Résultats des tests Jenkins](docs/screenshots/jenkins-tests-build-2.png)
+![Build Jenkins déclenché depuis GitHub](docs/screenshots/jenkins-build-6-success.jpeg)
 
-J'ai réalisé la vérification locale de Jenkins avec ngrok. La capture ci-dessous montre la configuration ngrok valide, Jenkins accessible en local sur le port 8080 et la commande utilisée pour lancer le tunnel.
+J'ai réalisé la vérification locale de Jenkins avec ngrok. La capture ci-dessous montre le tunnel actif vers `http://localhost:8080`.
 
-![Vérification ngrok et Jenkins local](docs/screenshots/PHOTO-2026-06-01-11-24-11.jpg)
+![Tunnel ngrok actif vers Jenkins](docs/screenshots/ngrok-tunnel-active.jpeg)
+
+J'ai vérifié depuis le terminal que l'URL publique ngrok répond bien avec Jenkins. La réponse contient `x-jenkins: 2.555.2`, ce qui confirme que la liaison publique atteint Jenkins.
+
+![Test curl de Jenkins via ngrok](docs/screenshots/ngrok-curl-jenkins.jpeg)
 
 ## Build en échec puis correction
 
@@ -124,4 +128,3 @@ Unsupported class file major version 69
 ```
 
 J'ai corrigé la configuration Maven en ciblant explicitement Java 17 avec `maven.compiler.release` et en mettant à jour le plugin SpotBugs. Cette correction correspond mieux au TP, car Jenkins doit utiliser l'outil `JDK17`.
-
