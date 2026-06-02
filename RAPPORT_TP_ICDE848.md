@@ -71,6 +71,36 @@ Le pipeline contient aussi les paramètres `ENVIRONMENT`, `BRANCH` et `SKIP_TEST
 
 J'ai réalisé la configuration du job Jenkins `ICDE848` pour utiliser le dépôt GitHub `https://github.com/ismail0133/tpjunk.git` et déclencher le pipeline à chaque push GitHub.
 
+## Liaison GitHub, ngrok et Jenkins
+
+J'ai ajouté le déclencheur `githubPush()` dans le `Jenkinsfile` afin que le pipeline Jenkins puisse être lancé automatiquement par un webhook GitHub.
+
+J'ai réalisé l'automatisation ngrok avec trois scripts :
+
+| Script | Rôle |
+|---|---|
+| `scripts/install-ngrok.sh` | Vérifie l'installation de ngrok, l'installe avec Homebrew si nécessaire et valide la configuration. |
+| `scripts/start-ngrok-jenkins.sh` | Lance un tunnel ngrok vers Jenkins local sur le port `8080`, récupère l'URL publique et affiche l'URL du webhook GitHub. |
+| `scripts/configure-github-webhook.sh` | Configure le webhook GitHub automatiquement si GitHub CLI est installé et connecté, sinon affiche les étapes manuelles. |
+
+Commandes utilisées pour la liaison :
+
+```bash
+./scripts/install-ngrok.sh
+# Si un token ngrok est demandé :
+NGROK_AUTHTOKEN=ton_token ./scripts/install-ngrok.sh
+./scripts/start-ngrok-jenkins.sh
+./scripts/configure-github-webhook.sh
+```
+
+L'URL à renseigner dans GitHub est générée automatiquement au format :
+
+```text
+https://xxxx.ngrok-free.app/github-webhook/
+```
+
+Cette configuration permet à GitHub d'envoyer l'événement `push` vers Jenkins, même si Jenkins est lancé en local.
+
 ## Captures Jenkins
 
 J'ai réalisé un build Jenkins déclenché automatiquement depuis GitHub. La capture ci-dessous montre le build `tpjunk #2` en succès, démarré par un push GitHub, avec les artefacts archivés et le dépôt `https://github.com/ismail0133/tpjunk.git`.

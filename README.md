@@ -33,6 +33,8 @@ J'ai réalisé la configuration complète du TP : tests automatisés, couverture
 - Java 17 (`java -version`)
 - Maven 3.9+ (`mvn -version`)
 - Git (`git --version`)
+- Jenkins local sur le port `8080`
+- ngrok (`./scripts/install-ngrok.sh`)
 
 ### Cloner et tester en local
 
@@ -92,6 +94,45 @@ Après `mvn clean verify checkstyle:checkstyle pmd:pmd pmd:cpd spotbugs:spotbugs
 - ThinBackup
 - Email Extension Plugin
 - GitHub plugin (si webhook GitHub)
+
+### Liaison GitHub → Jenkins avec ngrok
+
+Le `Jenkinsfile` contient le déclencheur `githubPush()`. Pour que GitHub puisse appeler Jenkins quand Jenkins tourne en local, lance un tunnel ngrok vers le port `8080`.
+
+```bash
+# 1. Vérifier ou installer ngrok
+./scripts/install-ngrok.sh
+
+# Si ngrok demande un token personnel
+NGROK_AUTHTOKEN=ton_token ./scripts/install-ngrok.sh
+
+# 2. Démarrer le tunnel vers Jenkins local
+./scripts/start-ngrok-jenkins.sh
+```
+
+Le script affiche une URL de webhook sous cette forme :
+
+```text
+https://xxxx.ngrok-free.app/github-webhook/
+```
+
+Ajoute cette URL dans GitHub :
+
+```text
+Repository GitHub > Settings > Webhooks > Add webhook
+Payload URL  : https://xxxx.ngrok-free.app/github-webhook/
+Content type : application/json
+Events       : Just the push event
+Active       : coché
+```
+
+Si GitHub CLI est installé et connecté, le webhook peut être créé automatiquement :
+
+```bash
+./scripts/configure-github-webhook.sh
+```
+
+À chaque nouveau tunnel ngrok gratuit, l'URL peut changer. Il faut alors relancer `./scripts/start-ngrok-jenkins.sh` et mettre à jour le webhook GitHub.
 
 ### Post-build Actions du job
 ```

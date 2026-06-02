@@ -51,6 +51,11 @@ pipeline {
         )
     }
 
+    // Déclenchement automatique par webhook GitHub
+    triggers {
+        githubPush()
+    }
+
     // ─────────────────────────────────────────────────
     // STAGES
     // ─────────────────────────────────────────────────
