@@ -153,7 +153,37 @@ pipeline {
             }
         }
 
-        // ── Stage 7 : Archiver le JAR ─────────────────
+        // ── Stage 7 : Tests UI Selenium ───────────────
+        stage('Tests UI Selenium') {
+            steps {
+                dir('tp-selenium') {
+                    sh '''
+                        python3 -m venv venv
+                        . venv/bin/activate
+                        pip install -r requirements.txt --quiet
+                        pytest tests/ \
+                            -v \
+                            --junitxml=rapport-selenium.xml \
+                            --html=rapport-selenium.html \
+                            --self-contained-html
+                    '''
+                }
+            }
+            post {
+                always {
+                    junit 'tp-selenium/rapport-selenium.xml'
+                    archiveArtifacts(
+                        artifacts: 'tp-selenium/rapport-selenium.html',
+                        allowEmptyArchive: true
+                    )
+                }
+                failure {
+                    echo 'Tests UI en échec — consulter rapport-selenium.html'
+                }
+            }
+        }
+
+        // ── Stage 8 : Archiver le JAR ─────────────────
         stage('Archive') {
             steps {
                 archiveArtifacts(

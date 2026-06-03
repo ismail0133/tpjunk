@@ -2,6 +2,7 @@ package fr.epsi.service;
 
 import fr.epsi.model.Article;
 import fr.epsi.model.Panier;
+import fr.epsi.repository.StockRepository;
 import java.util.Map;
 
 /**
@@ -9,6 +10,24 @@ import java.util.Map;
  * ICDE848 – TP Jenkins
  */
 public class CommandeService {
+
+    private StockRepository stockRepository;
+
+    /**
+     * Constructeur par défaut : conserve le comportement existant.
+     */
+    public CommandeService() {
+        this.stockRepository = null;
+    }
+
+    /**
+     * Constructeur avec injection de dépendance pour les tests de stock.
+     *
+     * @param stockRepository le repository de stock à utiliser
+     */
+    public CommandeService(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
 
     /**
      * Calcule le total d'un panier.
@@ -41,6 +60,37 @@ public class CommandeService {
             throw new IllegalArgumentException("Remise invalide : " + pourcentage);
         }
         return total * (1 - pourcentage / 100.0);
+    }
+
+    /**
+     * Calcule la TVA à 20% sur un montant donné.
+     *
+     * @param montant le montant HT
+     * @return la TVA arrondie à 2 décimales
+     * @throws IllegalArgumentException si le montant est négatif
+     */
+    public double calculerTVA(double montant) {
+        if (montant < 0) {
+            throw new IllegalArgumentException("Montant négatif : " + montant);
+        }
+        double tva = montant * 0.20;
+        return Math.round(tva * 100.0) / 100.0;
+    }
+
+    /**
+     * Vérifie si la commande est réalisable selon le stock disponible.
+     *
+     * @param article  l'article à commander
+     * @param quantite la quantité demandée
+     * @return true si le stock est suffisant
+     * @throws IllegalStateException si aucun StockRepository n'est configuré
+     */
+    public boolean commandeRealisable(Article article, int quantite) {
+        if (stockRepository == null) {
+            throw new IllegalStateException("StockRepository non configuré");
+        }
+        int stockDisponible = stockRepository.getStock(article);
+        return stockDisponible >= quantite;
     }
 
     /**

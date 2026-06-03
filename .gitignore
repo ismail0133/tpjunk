@@ -1,2 +1,8 @@
 target/
 .ngrok/
+tp-selenium/.venv/
+tp-selenium/venv/
+tp-selenium/.pytest_cache/
+tp-selenium/**/__pycache__/
+tp-selenium/rapport-selenium.html
+tp-selenium/rapport-selenium.xml
